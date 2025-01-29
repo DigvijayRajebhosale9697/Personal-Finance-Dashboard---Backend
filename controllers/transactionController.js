@@ -3,9 +3,9 @@ const Transaction = require("../models/Transaction");
 // Create a new transaction
 exports.createTransaction = async (req, res) => {
   try {
-    const { type, amount, categoryId } = req.body;
+    const { type, amount, category } = req.body;
 
-    if (!type || !amount || !categoryId) {
+    if (!type || !amount || !category) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -13,7 +13,7 @@ exports.createTransaction = async (req, res) => {
       userId: req.user.id,
       type,
       amount,
-      categoryId
+      category
     });
 
     await transaction.save();
@@ -26,7 +26,7 @@ exports.createTransaction = async (req, res) => {
 // Get all transactions
 exports.getTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.find({ userId: req.user.id }).populate("categoryId", "name");
+    const transactions = await Transaction.find({ userId: req.user.id });
     res.json(transactions);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
