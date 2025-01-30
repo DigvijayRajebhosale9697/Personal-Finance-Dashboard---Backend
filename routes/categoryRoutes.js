@@ -12,4 +12,7 @@ router.get('/', protect, categoryController.getCategories);
 // @route DELETE /api/categories/:id
 router.delete('/:id', protect, categoryController.deleteCategory);
 
+// @route EDIT /api/categories/:id
+router.put("/:id", protect, categoryController.updateCategory);
+
 module.exports = router;

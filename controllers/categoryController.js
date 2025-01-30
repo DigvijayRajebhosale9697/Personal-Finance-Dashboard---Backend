@@ -47,3 +47,26 @@ exports.deleteCategory = async (req, res) => {
     res.status(500).json({ message: "Server Error", error });
   }
 };
+
+exports.updateCategory = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const category = await Category.findById(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // Check if the logged-in user owns this category
+    if (category.userId.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    category.name = name || category.name; // Update only if name is provided
+    await category.save();
+
+    res.json({ message: "Category updated successfully!", category });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
