@@ -59,7 +59,7 @@ exports.sendPasswordResetLink = async (req, res) => {
       }
   
       const resetToken = crypto.randomBytes(32).toString('hex');
-      const resetTokenExpiration = Date.now() + 3600000; // 1 hour expiration
+      const resetTokenExpiration = Date.now() + 3600000; 
   
       user.resetPasswordToken = resetToken;
       user.resetPasswordExpiration = resetTokenExpiration;

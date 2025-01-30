@@ -21,7 +21,6 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log('MongoDB Connected')).catch(err => console.log(err));
 
 // Routes
-// Routes
 app.use('/api/categories', categoryRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/users', userRoutes);

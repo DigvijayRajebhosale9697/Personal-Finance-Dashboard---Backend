@@ -3,17 +3,33 @@ const Transaction = require("../models/Transaction");
 // Create a new transaction
 exports.createTransaction = async (req, res) => {
   try {
-    const { type, amount, category } = req.body;
+    const { type, amount, category, date } = req.body;
 
+    // Ensure that all required fields are present
     if (!type || !amount || !category) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    // Check for duplicate transaction
+    const existingTransaction = await Transaction.findOne({
+      userId: req.user.id,
+      type,
+      amount,
+      category,
+      date,
+    });
+
+    if (existingTransaction) {
+      return res.status(400).json({ message: "Transaction already exists" });
+    }
+
+    // Create and save new transaction
     const transaction = new Transaction({
       userId: req.user.id,
       type,
       amount,
-      category
+      category,
+      date,
     });
 
     await transaction.save();
@@ -22,6 +38,7 @@ exports.createTransaction = async (req, res) => {
     res.status(500).json({ message: "Server Error", error });
   }
 };
+
 
 // Get all transactions
 exports.getTransactions = async (req, res) => {

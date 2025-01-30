@@ -1,8 +1,5 @@
 const Category = require("../models/Category");
 
-// @desc Create a new category
-// @route POST /api/categories
-// @access Private
 exports.createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -17,9 +14,6 @@ exports.createCategory = async (req, res) => {
   }
 };
 
-// @desc Get all categories for the logged-in user
-// @route GET /api/categories
-// @access Private
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find({ userId: req.user.id });
@@ -29,9 +23,6 @@ exports.getCategories = async (req, res) => {
   }
 };
 
-// @desc Delete a category
-// @route DELETE /api/categories/:id
-// @access Private
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -57,12 +48,11 @@ exports.updateCategory = async (req, res) => {
       return res.status(404).json({ message: "Category not found" });
     }
 
-    // Check if the logged-in user owns this category
     if (category.userId.toString() !== req.user.id) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    category.name = name || category.name; // Update only if name is provided
+    category.name = name || category.name; 
     await category.save();
 
     res.json({ message: "Category updated successfully!", category });
