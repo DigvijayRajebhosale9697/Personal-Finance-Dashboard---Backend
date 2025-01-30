@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
 // Generate JWT
@@ -67,13 +66,13 @@ exports.sendPasswordResetLink = async (req, res) => {
   
       const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
   
-      const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+    //   const transporter = nodemailer.createTransport({
+    //     service: 'Gmail',
+    //     auth: {
+    //       user: process.env.EMAIL_USER,
+    //       pass: process.env.EMAIL_PASS,
+    //     },
+    //   });
   
       const mailOptions = {
         to: email,
